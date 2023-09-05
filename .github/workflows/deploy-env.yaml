@@ -14,6 +14,13 @@ jobs:
       - run: |
           echo ${{ steps.extract_branch.outputs.branch }}
 
+      - name: Build
+        shell: bash
+        run: |
+          mkdir -p ./public
+          cp -r ./template public 
+          find . -type f -name '*' -exec sed -i 's@{{ branch-name }}@${{ steps.extract_branch.outputs.branch }}@g' {} +
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
