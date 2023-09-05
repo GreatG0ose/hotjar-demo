@@ -1,0 +1,17 @@
+name: Deploy page
+on: [ pull_request ]
+jobs:
+  deploy:
+    name: Deploy a branch page
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          echo ${{ github.ref }}
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public/${{ github.ref }}
+          publish_branch: gh-pages
+          keep_files: true
