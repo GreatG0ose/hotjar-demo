@@ -21,6 +21,13 @@ jobs:
           cp -r ./template public 
           find . -type f -name '*' -exec sed -i 's@{{ branch-name }}@${{ steps.extract_branch.outputs.branch }}@g' {} +
 
+      - name: LS
+        shell: bash
+        run: |
+          ls -al .
+          ls -al public
+          git status
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
