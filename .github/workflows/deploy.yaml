@@ -6,12 +6,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
       - run: |
-          echo ${{ github.ref }}
+          echo ${{ steps.extract_branch.outputs.branch }}
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public/${{ github.ref }}
+          publish_dir: ./public/${{ steps.extract_branch.outputs.branch }}
           publish_branch: gh-pages
           keep_files: true
