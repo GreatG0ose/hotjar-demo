@@ -1,0 +1,36 @@
+name: Destroy GH Page for branch
+on:
+  pull_request:
+    types: [ closed ]
+jobs:
+  deploy:
+    name: Destroy the branch GH Page
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current branch
+        uses: actions/checkout@v4
+        with:
+          path: current
+
+      - name: Extract branch name
+        shell: bash
+        working-directory: current
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+      - run: |
+          echo ${{ steps.extract_branch.outputs.branch }}
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Destroy resources for the branch
+        shell:  bash
+        working-directory: gh-pages
+        run: |
+          rm -rf ${{ steps.extract_branch.outputs.branch }}
+          git add .
+          git commit -m "Destroyed ${{ steps.extract_branch.outputs.branch }}"
+          git push
