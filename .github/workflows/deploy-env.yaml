@@ -17,8 +17,8 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          mkdir -p ./public
-          cp -r ./template public 
+          mkdir -p ./public/${{ steps.extract_branch.outputs.branch }}
+          cp -r ./template public/${{ steps.extract_branch.outputs.branch }}
           find . -type f -name '*' -exec sed -i 's@{{ branch-name }}@${{ steps.extract_branch.outputs.branch }}@g' {} +
 
       - name: LS
