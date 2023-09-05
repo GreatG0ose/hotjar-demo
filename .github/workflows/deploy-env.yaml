@@ -27,8 +27,8 @@ jobs:
         shell: bash
         run: |
           ls -al .
-          ls -al template
-          ls -al public/${{ steps.extract_branch.outputs.branch }}
+          ls -al template/
+          ls -al public/${{ steps.extract_branch.outputs.branch }}/
           git status
 
       - name: Deploy
