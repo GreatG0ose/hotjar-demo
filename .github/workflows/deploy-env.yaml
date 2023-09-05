@@ -21,7 +21,7 @@ jobs:
           pushd ./template
           find . -type f -name '*' -exec sed -i 's@{{ branch-name }}@${{ steps.extract_branch.outputs.branch }}@g' {} +
           popd
-          cp -r ./template/* ./public/${{ steps.extract_branch.outputs.branch }}/*
+          cp -r ./template/* ./public/${{ steps.extract_branch.outputs.branch }}/
 
       - name: LS
         shell: bash
