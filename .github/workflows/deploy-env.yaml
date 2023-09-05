@@ -23,14 +23,6 @@ jobs:
           popd
           cp -r ./template/* ./public/${{ steps.extract_branch.outputs.branch }}/
 
-      - name: LS
-        shell: bash
-        run: |
-          ls -al .
-          ls -al template/
-          ls -al public/${{ steps.extract_branch.outputs.branch }}/
-          git status
-
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
