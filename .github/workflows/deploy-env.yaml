@@ -18,14 +18,15 @@ jobs:
         shell: bash
         run: |
           mkdir -p ./public/${{ steps.extract_branch.outputs.branch }}
-          cp -r ./template public/${{ steps.extract_branch.outputs.branch }}
+          cp -r ./template/ public/${{ steps.extract_branch.outputs.branch }}/
           find . -type f -name '*' -exec sed -i 's@{{ branch-name }}@${{ steps.extract_branch.outputs.branch }}@g' {} +
 
       - name: LS
         shell: bash
         run: |
           ls -al .
-          ls -al public
+          ls -al template
+          ls -al public/${{ steps.extract_branch.outputs.branch }}
           git status
 
       - name: Deploy
