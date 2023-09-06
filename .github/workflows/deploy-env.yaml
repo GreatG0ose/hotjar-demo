@@ -30,3 +30,17 @@ jobs:
           publish_dir: ./public/
           publish_branch: gh-pages
           keep_files: true
+
+
+      - name: Get Github Pages URL
+        id: extract_pages_url
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "url=$(gh api "repos/$GITHUB_REPOSITORY/pages" --jq '.html_url')" >> $GITHUB_OUTPUT
+
+      - name: Add link to deployment
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            Build will be available at ${{ steps.extract_pages_url.outputs.url }}/${{ steps.extract_branch.outputs.branch }} :wave:
